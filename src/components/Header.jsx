@@ -41,8 +41,12 @@ export default function Header() {
 
             {open && (
                 <nav className="flex flex-col items-start gap-4 mt-4 md:hidden text-lg">
-                    <Link to="about">About</Link>
-                    <Link to="contact">Contact</Link>
+                    <NavLink to="about" className={({ isActive }) => (isActive ? "text-yellow-300" : "")}>
+                        About
+                    </NavLink>
+                    <NavLink to="contact" className={({ isActive }) => (isActive ? "text-yellow-300" : "")}>
+                        Contact
+                    </NavLink>
                     <div className="flex gap-5 text-xl">
                         <a href="#"><FaShoppingCart /></a>
                         <a href="#"><IoMdLogIn /></a>
