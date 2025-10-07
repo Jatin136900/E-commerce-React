@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 export default function Header() {
     const [open, setOpen] = useState(false);
@@ -22,13 +22,20 @@ export default function Header() {
 
 
                 <nav className="hidden md:flex items-center gap-10 text-lg">
-                    <Link to="/">Home</Link>
-                    <Link to="about">About</Link>
-                    <Link to="contact">Contact</Link>
+                    <NavLink to="/" className={({ isActive }) => (isActive ? "text-yellow-300" : "")}>
+                        Home
+                    </NavLink>
+                    <NavLink to="about" className={({ isActive }) => (isActive ? "text-yellow-300" : "")}>
+                        About
+                    </NavLink>
+                    <NavLink to="contact" className={({ isActive }) => (isActive ? "text-yellow-300" : "")}>
+                        Contact
+                    </NavLink>
 
                     <a href="#"><FaShoppingCart /></a>
                     <a href="#"><IoMdLogIn /></a>
                 </nav>
+
             </div>
 
 
