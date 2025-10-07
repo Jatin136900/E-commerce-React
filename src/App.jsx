@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Jatin from './components/Jatin'
 import About from './pages/About'
 import Contact from './pages/Contact'
-import NotFound from './pages/NotFound' // Make sure this file exists
+import {NotFound} from './pages/NotFound' 
 
 const router = createBrowserRouter([
   {
