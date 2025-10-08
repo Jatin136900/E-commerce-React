@@ -1,12 +1,14 @@
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
+import { useState } from 'react'
 
 export default function Jatin() {
+    const [currency, setCurrency] = useState("INR")
     return (
         <>
-            <Header />
-            <Outlet />
+            <Header currency={currency} setCurrency={setCurrency} />
+            <Outlet context={{ currency, setCurrency }} />
             <Footer />
         </>
     )

@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Contact() {
   return (
     <main className="p-10 bg-gray-50 min-h-screen flex flex-col items-center">
@@ -18,10 +16,10 @@ export default function Contact() {
 
           <div className="space-y-3 text-gray-700">
             <p>
-              📍 <span className="font-semibold">Address:</span> 123 Market Street, New Delhi, India
+              📍 <span className="font-semibold">Address:</span> Jaipur, India
             </p>
             <p>
-              📞 <span className="font-semibold">Phone:</span> +91 98765 43210
+              📞 <span className="font-semibold">Phone:</span> +91 18161 11225
             </p>
             <p>
               📧 <span className="font-semibold">Email:</span> support@ourstore.com
