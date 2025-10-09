@@ -30,7 +30,7 @@ export default function AddToCart() {
           <span className="text-xl">←</span> Continue Shopping
         </NavLink>
 
-        <h1 className="text-3xl font-bold text-gray-800">Your Cart 🛒</h1>
+        <h1 className="text-3xl font-bold text-gray-800 pl-3.5">Your Cart 🛒</h1>
       </div>
 
       {cart.length === 0 ? (
@@ -108,7 +108,7 @@ export default function AddToCart() {
                 ? `₹${(total * usdToInr).toFixed(2)}`
                 : `$${total}`}
             </h2>
-            <button className="px-6 py-3 bg-green-600 text-white font-semibold rounded-xl shadow hover:bg-green-700 transition-all duration-300">
+            <button className="px-6 py-3 bg-green-600 text-white font-semibold rounded-xl shadow hover:bg-green-700 transition-all duration-300 ml-2">
               Checkout
             </button>
           </div>
