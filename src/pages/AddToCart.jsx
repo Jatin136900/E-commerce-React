@@ -1,14 +1,27 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { useCart } from "./CartContext"; // 🟢 import context
+import { NavLink, useOutletContext } from "react-router-dom";
+import { useCart } from "./CartContext";
 
 export default function AddToCart() {
-  const { cart, removeFromCart } = useCart(); // get global cart
+  const { currency } = useOutletContext(); // get currency from parent
+  const { cart, removeFromCart, updateQuantity } = useCart(); // cart context
 
-  const total = cart.reduce((acc, item) => acc + item.price, 0).toFixed(2);
+  // Example exchange rate, you can fetch dynamically if needed
+  const usdToInr = 82; // 1 USD = 82 INR
+
+  // Function to format price based on currency
+  const formatPrice = (price) => {
+    if (currency === "INR") return `₹${(price * usdToInr).toFixed(2)}`;
+    return `$${price.toFixed(2)}`;
+  };
+
+  // Calculate total
+  const total = cart
+    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .toFixed(2);
 
   return (
-    <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen pt-24">
       <div className="flex justify-between items-center mb-6">
         <NavLink
           to="/"
@@ -45,22 +58,56 @@ export default function AddToCart() {
                   className="w-20 h-20 object-contain"
                 />
                 <div>
-                  <h2 className="font-semibold text-lg text-gray-800">{item.title}</h2>
-                  <p className="text-gray-500">${item.price.toFixed(2)}</p>
+                  <h2 className="font-semibold text-lg text-gray-800">
+                    {item.title}
+                  </h2>
+                  <p className="text-gray-500">
+                    Price: {formatPrice(item.price)} each
+                  </p>
                 </div>
               </div>
 
-              <button
-                onClick={() => removeFromCart(item.id)}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition-all duration-300"
-              >
-                Remove
-              </button>
+              {/* Quantity Controls */}
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() =>
+                    updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                  }
+                  className="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg font-bold text-xl hover:bg-gray-300 transition"
+                >
+                  −
+                </button>
+                <span className="text-lg font-semibold">{item.quantity}</span>
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  className="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg font-bold text-xl hover:bg-gray-300 transition"
+                >
+                  +
+                </button>
+              </div>
+
+              <div className="flex flex-col items-end">
+                <p className="text-lg font-semibold text-gray-800">
+                  {formatPrice(item.price * item.quantity)}
+                </p>
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition-all duration-300"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           ))}
 
+          {/* Total */}
           <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-800">Total: ${total}</h2>
+            <h2 className="text-2xl font-bold text-gray-800">
+              Total:{" "}
+              {currency === "INR"
+                ? `₹${(total * usdToInr).toFixed(2)}`
+                : `$${total}`}
+            </h2>
             <button className="px-6 py-3 bg-green-600 text-white font-semibold rounded-xl shadow hover:bg-green-700 transition-all duration-300">
               Checkout
             </button>
@@ -70,4 +117,3 @@ export default function AddToCart() {
     </div>
   );
 }
- 

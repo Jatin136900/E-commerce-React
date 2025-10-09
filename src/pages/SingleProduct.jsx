@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import axios from "axios";
 import { useOutletContext } from "react-router";
-import { useCart } from "./CartContext"; // 🟢 import context
+import { useCart } from "./CartContext";
 
 function SingleProduct() {
   const { currency } = useOutletContext();
@@ -10,11 +10,14 @@ function SingleProduct() {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
   const [usdToInr, setUsdToInr] = useState(0);
-  const { addToCart } = useCart(); // 🟢 access global add function
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false); // 🟢 new flag
 
   useEffect(() => {
     fetchExchangeRate();
     fetchProduct();
+    setAddedToCart(false); // reset flag if product changes
   }, [id]);
 
   async function fetchExchangeRate() {
@@ -62,6 +65,19 @@ function SingleProduct() {
       : product.price.toFixed(2);
   const currencySymbol = currency === "INR" ? "₹" : "$";
 
+  const handleIncrease = () => setQuantity((prev) => prev + 1);
+  const handleDecrease = () =>
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const handleAddToCart = () => {
+    if (!addedToCart) {
+      addToCart(product, quantity);
+      setAddedToCart(true); // mark as added
+    } else {
+      alert("You can't add this product again!");
+    }
+  };
+
   return (
     <div className="p-6 md:p-10 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <NavLink
@@ -94,8 +110,25 @@ function SingleProduct() {
             </p>
           </div>
 
+          {/* Quantity Selector */}
+          <div className="flex items-center gap-4 mt-4">
+            <button
+              onClick={handleDecrease}
+              className="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg font-bold text-xl hover:bg-gray-300 transition"
+            >
+              −
+            </button>
+            <span className="text-xl font-semibold">{quantity}</span>
+            <button
+              onClick={handleIncrease}
+              className="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg font-bold text-xl hover:bg-gray-300 transition"
+            >
+              +
+            </button>
+          </div>
+
           <button
-            onClick={() => addToCart(product)}
+            onClick={handleAddToCart}
             className="mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow hover:bg-blue-700 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Add to Cart 🛒
