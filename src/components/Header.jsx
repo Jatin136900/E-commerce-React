@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import { NavLink , Link } from "react-router-dom";
 
 export default function Header({ currency, setCurrency }) {
   const [open, setOpen] = useState(false);
@@ -28,21 +28,19 @@ export default function Header({ currency, setCurrency }) {
           <div className="flex gap-2 bg-gray-200 p-1 rounded-full shadow-inner">
             <h1
               onClick={() => setCurrency("INR")}
-              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${
-                currency === "INR"
+              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${currency === "INR"
                   ? "bg-yellow-400 text-white"
                   : "text-gray-700 hover:bg-yellow-200"
-              }`}
+                }`}
             >
               ₹
             </h1>
             <h1
               onClick={() => setCurrency("USD")}
-              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${
-                currency === "USD"
+              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${currency === "USD"
                   ? "bg-yellow-400 text-white"
                   : "text-gray-700 hover:bg-yellow-200"
-              }`}
+                }`}
             >
               $
             </h1>
@@ -82,9 +80,9 @@ export default function Header({ currency, setCurrency }) {
 
           {/* Icons */}
           <div className="flex gap-4 text-xl">
-            <a href="#" className="hover:text-yellow-300 transition">
+            <Link to= "AddToCart" className="hover:text-yellow-300 transition">
               <FaShoppingCart />
-            </a>
+            </Link>
             <a href="#" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
             </a>
@@ -94,29 +92,26 @@ export default function Header({ currency, setCurrency }) {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
-          open ? "max-h-96 mt-4" : "max-h-0"
-        }`}
+        className={`md:hidden transition-all duration-300 overflow-hidden ${open ? "max-h-96 mt-4" : "max-h-0"
+          }`}
       >
         <nav className="flex flex-col gap-4 text-lg bg-amber-800 p-4 rounded-xl shadow-md">
           <div className="flex justify-center gap-2 bg-gray-200 p-1 rounded-full w-fit mx-auto mb-3 shadow-inner">
             <h1
               onClick={() => setCurrency("INR")}
-              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${
-                currency === "INR"
+              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${currency === "INR"
                   ? "bg-yellow-400 text-white"
                   : "text-gray-700 hover:bg-yellow-200"
-              }`}
+                }`}
             >
               ₹
             </h1>
             <h1
               onClick={() => setCurrency("USD")}
-              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${
-                currency === "USD"
+              className={`cursor-pointer px-4 py-1 rounded-full font-bold transition-all duration-300 ${currency === "USD"
                   ? "bg-yellow-400 text-white"
                   : "text-gray-700 hover:bg-yellow-200"
-              }`}
+                }`}
             >
               $
             </h1>
@@ -155,6 +150,7 @@ export default function Header({ currency, setCurrency }) {
           >
             Contact
           </NavLink>
+
 
           <div className="flex justify-center gap-6 text-xl mt-2">
             <a href="#" className="hover:text-yellow-300 transition">

@@ -3,7 +3,7 @@ import React from "react";
 export default function About() {
     return (
         <main className="p-10 bg-gray-50 min-h-screen flex flex-col items-center">
-            <h2 className="text-4xl font-semibold text-center mb-10 pt-3 relative after:content-[''] after:block after:w-16 after:h-[3px] after:bg-red-600 after:mx-auto after:mt-3">
+            <h2 className="text-4xl font-semibold text-center mb-10 pt-3 relative after:content-[''] after:block after:w-16 after:h-[3px] after:bg-red-600 after:mx-auto after:mt-3 mt-12">
                 About Us
             </h2>
 
