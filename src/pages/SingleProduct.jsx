@@ -78,7 +78,8 @@ function SingleProduct() {
   };
 
   return (
-    <div className="p-4 md:p-10 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    
+    <div className="p-4 md:p-10 bg-gradient-to-br from-gray-50 to-gray-100  min-h-screen">
       {/* Back Link */}
       <NavLink
         to="/"

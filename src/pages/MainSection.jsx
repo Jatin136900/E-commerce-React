@@ -33,7 +33,7 @@ function MainSection() {
 
   return (
     <main>
-      <div className="p-5 bg-gray-50 mb-20">
+      <div className="p-5 bg-gray-50 mb-20 min-h-screen">
         <h2 className="text-4xl font-semibold text-center mb-10 pt-3">Products</h2>
         <div className="flex flex-wrap justify-center gap-6">
           {products.map((obj) => (
