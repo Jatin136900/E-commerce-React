@@ -155,7 +155,7 @@ export default function Header({ currency, setCurrency }) {
           <div className="flex justify-center gap-6 text-xl mt-2">
             <Link to="AddToCart" className="hover:text-yellow-300 transition">
               <FaShoppingCart />
-            </Link><IoMdLogIn />
+            </Link>
             <Link to="/" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
             </Link>
