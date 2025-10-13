@@ -10,7 +10,7 @@ function SingleProduct() {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
   const [usdToInr, setUsdToInr] = useState(0);
-  const { addToCart } = useCart();
+  const { addToCart } = useCart();  
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 

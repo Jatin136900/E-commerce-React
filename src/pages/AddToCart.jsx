@@ -3,19 +3,16 @@ import { NavLink, useOutletContext } from "react-router-dom";
 import { useCart } from "./CartContext";
 
 export default function AddToCart() {
-  const { currency } = useOutletContext(); // get currency from parent
-  const { cart, removeFromCart, updateQuantity } = useCart(); // cart context
+  const { currency } = useOutletContext(); 
+  const { cart, removeFromCart, updateQuantity } = useCart(); 
 
-  // Example exchange rate, you can fetch dynamically if needed
-  const usdToInr = 82; // 1 USD = 82 INR
+  const usdToInr = 82;
 
-  // Function to format price based on currency
   const formatPrice = (price) => {
     if (currency === "INR") return `₹${(price * usdToInr).toFixed(2)}`;
     return `$${price.toFixed(2)}`;
   };
 
-  // Calculate total
   const total = cart
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
     .toFixed(2);
@@ -51,16 +48,21 @@ export default function AddToCart() {
               key={item.id}
               className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-gray-200 py-5 last:border-none"
             >
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 w-full md:w-auto">
                 <img
                   src={item.image}
                   alt={item.title}
                   className="w-20 h-20 object-contain"
                 />
                 <div>
-                  <h2 className="font-semibold text-lg text-gray-800">
+                  {/* Fixed width title box */}
+                  <h2
+                    className="font-semibold text-lg text-gray-800 w-48 truncate"
+                    title={item.title}
+                  >
                     {item.title}
                   </h2>
+
                   <p className="text-gray-500">
                     Price: {formatPrice(item.price)} each
                   </p>
