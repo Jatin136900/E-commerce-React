@@ -6,9 +6,7 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
     const [cart, setCart] = useState(() => {
     // 🟢 Load cart from localStorage on first render
-    const savedCart = localStorage.get
-    
-    Item("cart");
+    const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
