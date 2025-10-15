@@ -1,5 +1,4 @@
 
-
 export default function About() {
     return (
         <main className="p-10 bg-gray-50 min-h-screen flex flex-col items-center">

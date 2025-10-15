@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useOutletContext } from "react-router";
 
 function MainSection() {
-  const { currency } = useOutletContext();  
+  const { currency } = useOutletContext();
   const [products, setProducts] = useState([]);
   const [usdToInr, setUsdToInr] = useState(0);
 
@@ -50,6 +50,7 @@ function MainSection() {
                 {currency === "INR" ? (
                   usdToInr ? (
                     <p className="text-red-500 text-[15px] font-semibold mt-2">
+                                                                                       
                       ₹{(obj.price * usdToInr).toFixed(2)}
                     </p>
                   ) : (

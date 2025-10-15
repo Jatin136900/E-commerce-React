@@ -3,7 +3,7 @@ import Header from './Header'
 import Footer from './Footer'
 import { useState } from 'react'
 
-export default function Jatin() {
+export default function Jatin({ hideHeader }) {
     const [currency, setCurrency] = useState("INR")
     return (
         <>

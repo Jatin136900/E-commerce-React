@@ -8,7 +8,7 @@ export default function Header({ currency, setCurrency }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-amber-700 text-white fixed top-0 left-0 w-full z-50 shadow-md">
+    <header className="bg-amber-700 text-white sticky top-0 left-0 w-full z-50 shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4 md:px-8 py-3">
         {/* Logo */}
         <Link to="/">
@@ -76,7 +76,7 @@ export default function Header({ currency, setCurrency }) {
             <Link to="AddToCart" className="hover:text-yellow-300 transition">
               <FaShoppingCart />
             </Link>
-            <Link to="/" className="hover:text-yellow-300 transition">
+            <Link to="LoginPage" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
             </Link>
           </div>
@@ -159,7 +159,7 @@ export default function Header({ currency, setCurrency }) {
             <Link to="AddToCart" className="hover:text-yellow-300 transition">
               <FaShoppingCart />
             </Link>
-            <Link to="/" className="hover:text-yellow-300 transition">
+            <Link to="LoginPage" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
             </Link>
           </div>

@@ -10,7 +10,7 @@ function SingleProduct() {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
   const [usdToInr, setUsdToInr] = useState(0);
-  const { addToCart } = useCart();  
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 
@@ -78,7 +78,7 @@ function SingleProduct() {
   };
 
   return (
-    
+
     <div className="p-4 md:p-10 bg-gradient-to-br from-gray-50 to-gray-100  min-h-screen">
       {/* Back Link */}
       <NavLink
