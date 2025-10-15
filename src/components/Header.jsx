@@ -41,7 +41,7 @@ export default function Header({ currency, setCurrency }) {
 
           {/* Nav Links */}
           <NavLink
-            to="/"
+            to="MainSection"
             className={({ isActive }) =>
               isActive
                 ? "text-yellow-300 font-semibold"
@@ -76,7 +76,7 @@ export default function Header({ currency, setCurrency }) {
             <Link to="AddToCart" className="hover:text-yellow-300 transition">
               <FaShoppingCart />
             </Link>
-            <Link to="LoginPage" className="hover:text-yellow-300 transition">
+            <Link to="/" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
             </Link>
           </div>

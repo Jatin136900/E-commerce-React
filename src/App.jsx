@@ -13,13 +13,15 @@ const router = createBrowserRouter([
     path: "/",
     element: <Jatin />,
     children: [
-      { index: true, element: <LoginPage /> },
+      { index: true, element: <MainSection/> },
+      { index: "Home",element: <MainSection /> },
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
       { path: "product/:id", element: <SingleProduct /> }, // Dynamic route
       { path: "*", element: <NotFound /> },
       { path: "AddToCart", element: <AddToCart /> },
       { path: "MainSection", element: <MainSection /> },
+      { path: "LoginPage", element: <LoginPage /> },
     ]
   }
 ])
