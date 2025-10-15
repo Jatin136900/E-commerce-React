@@ -10,7 +10,7 @@ export default function SingleProduct() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
-  const [usdToInr, setUsdToInr] = useState(0);
+  const [usdToInr, setUsdToInr] = useState(82); // fallback 82
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 
@@ -28,8 +28,8 @@ export default function SingleProduct() {
         "https://api.exchangerate-api.com/v4/latest/USD"
       );
       setUsdToInr(res.data.rates.INR);
-    } catch (err) {
-      console.error("Error fetching exchange rate:", err);
+    } catch {
+      setUsdToInr(82);
     }
   }
 
@@ -41,9 +41,7 @@ export default function SingleProduct() {
       if (response.data && Object.keys(response.data).length > 0) {
         setProduct(response.data);
         setError(false);
-      } else {
-        setError(true);
-      }
+      } else setError(true);
     } catch {
       setError(true);
     }

@@ -76,7 +76,7 @@ export default function Header({ currency, setCurrency }) {
             <Link to="AddToCart" className="hover:text-yellow-300 transition">
               <FaShoppingCart />
             </Link>
-            <Link to="/" className="hover:text-yellow-300 transition">
+            <Link to="Logout" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
             </Link>
           </div>

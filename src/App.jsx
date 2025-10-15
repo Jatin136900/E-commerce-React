@@ -7,6 +7,7 @@ import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 import AddToCart from './pages/AddToCart'
 import LoginPage from './pages/LoginPage'
+import Logout from './pages/Logout'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       { path: "AddToCart", element: <AddToCart /> },
       { path: "MainSection", element: <MainSection /> },
       { path: "LoginPage", element: <LoginPage /> },
+      { path: "Logout", element: <Logout /> },
     ]
   }
 ])
