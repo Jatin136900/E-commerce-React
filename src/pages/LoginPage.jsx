@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
-import Girl from '../assets/img/Girl.png';
+import { Link } from "react-router-dom";
+
+import Girl from "../assets/img/Girl.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login, addToCart } = useCart();
   const [message, setmessage] = useState("");
 
-  // Get used accounts from localStorage
+  // 🔹 Get used accounts from localStorage
   function getUsedAccounts() {
     try {
       const raw = localStorage.getItem("usedAccounts");
@@ -18,20 +20,20 @@ export default function LoginPage() {
     }
   }
 
-  // Save used accounts to localStorage
+  // 🔹 Save used accounts to localStorage
   function saveUsedAccounts(accounts) {
     try {
       localStorage.setItem("usedAccounts", JSON.stringify(accounts));
-    } catch (e) { }
+    } catch (e) {}
   }
 
-  // Handle login form submit
+  // 🔹 Handle login form submit
   const handleSubmit = async (formData) => {
     await new Promise((res) => setTimeout(res, 500));
 
     const name = formData.get("name")?.trim();
     const email = formData.get("email")?.trim()?.toLowerCase();
-    const password = formData.get("password");
+    const password = formData.get("password")?.trim();
 
     if (!email || !password) {
       setmessage("Please provide email and password");
@@ -39,50 +41,44 @@ export default function LoginPage() {
     }
 
     const usedAccounts = getUsedAccounts();
-    const already = usedAccounts.find((a) => a.email === email);
+    const existingUser = usedAccounts.find((a) => a.email === email);
 
-    if (already) {
-      alert(
-        "⚠️ You have already logged in. Please use your existing ID to log in. If you want to create a new account, click on Sign Up."
-      );
-      setmessage(
-        "This account has already been used to login. Use your existing ID or Sign Up for a new account."
-      );
+    // ✅ CASE 1: User already exists → verify credentials
+    if (existingUser) {
+      if (existingUser.password === password) {
+        // Correct credentials → Login success
+        const userObj = { id: existingUser.id, name: existingUser.name, email };
+        login(userObj);
+        setmessage("Login Successful ✅");
+
+        // Handle pending add-to-cart
+        const pending = localStorage.getItem("pendingAddToCart");
+        if (pending) {
+          try {
+            const { product, quantity } = JSON.parse(pending);
+            addToCart(product, quantity);
+            localStorage.removeItem("pendingAddToCart");
+            alert("✅ Product automatically added to cart!");
+          } catch (e) {}
+        }
+
+        setTimeout(() => navigate("/"), 800);
+      } else {
+        // Wrong password
+        alert("❌ Your password or email is incorrect. Please try again or Sign Up.");
+        setmessage("Incorrect email or password.");
+      }
       return;
     }
 
-    // Proceed with login
-    const userObj = { id: Date.now(), name: name || "User", email };
-    login(userObj);
-
-    // Save new account to usedAccounts
-    usedAccounts.push({
-      id: userObj.id,
-      name: userObj.name,
-      email: userObj.email,
-      firstLoginAt: new Date().toISOString()
-    });
-    saveUsedAccounts(usedAccounts);
-
-    // Handle pending add-to-cart
-    const pending = localStorage.getItem("pendingAddToCart");
-    if (pending) {
-      try {
-        const { product, quantity } = JSON.parse(pending);
-        addToCart(product, quantity);
-        localStorage.removeItem("pendingAddToCart");
-        alert("✅ Product automatically added to cart!");
-      } catch (e) { }
-    }
-
-    setmessage("Login Successful");
-    setTimeout(() => navigate("/"), 800);
+    // ❌ CASE 2: No user found → do NOT auto-register
+    alert("⚠️ You want to create a new account, so please do Sign Up.");
+    setmessage("Please Sign Up to create a new account.");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="flex flex-col md:flex-row bg-white rounded-3xl shadow-2xl overflow-hidden w-full max-w-5xl">
-
         {/* Left Illustration */}
         <div className="hidden md:flex flex-col justify-center items-center w-1/2 bg-gray-50 p-6 lg:p-10">
           <img src={Girl} alt="illustration" className="w-56 md:w-72 mb-6 object-contain" />
@@ -93,7 +89,9 @@ export default function LoginPage() {
 
         {/* Login Form */}
         <div className="flex flex-col justify-center w-full md:w-1/2 p-6 sm:p-8 md:p-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">Login</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">
+            Login
+          </h2>
 
           <form
             onSubmit={(e) => {
@@ -138,12 +136,14 @@ export default function LoginPage() {
           )}
 
           {/* Sign Up Button */}
+          <Link to = "/SignUp">
           <button
             onClick={() => navigate("/signup")}
             className="mt-4 w-full py-3 rounded-xl font-semibold text-purple-700 border-2 border-purple-500 hover:bg-purple-50 transition-all"
           >
             Sign Up
           </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import NotFound from './pages/NotFound'
 import AddToCart from './pages/AddToCart'
 import LoginPage from './pages/LoginPage'
 import Logout from './pages/Logout'
+import SignUp from './pages/SignUp'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "MainSection", element: <MainSection /> },
       { path: "LoginPage", element: <LoginPage /> },
       { path: "Logout", element: <Logout /> },
+      { path: "SignUp", element: <SignUp /> },
     ]
   }
 ])

@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
 import { NavLink, Link } from "react-router-dom";
 import logo from '../assets/img/logo.png';
+import { useCart } from "../pages/CartContext";
 
 export default function Header({ currency, setCurrency }) {
   const [open, setOpen] = useState(false);
+  const { cart } = useCart()
+
+  function added() {
+    return cart.length
+  }
 
   return (
     <header className="bg-amber-700 text-white sticky top-0 left-0 w-full z-50 shadow-md">
@@ -72,14 +78,24 @@ export default function Header({ currency, setCurrency }) {
           </NavLink>
 
           {/* Icons */}
-          <div className="flex gap-4 text-xl">
-            <Link to="AddToCart" className="hover:text-yellow-300 transition">
-              <FaShoppingCart />
-            </Link>
+          <div className="flex gap-6 text-2xl relative items-center">
+            {/* 🛒 Add To Cart with badge */}
+            <div className="relative">
+              <Link to="AddToCart" className="hover:text-yellow-300 transition relative">
+                <FaShoppingCart />
+                {/* 🔴 Red badge circle */}
+                <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
+                  {added()}
+                </span>
+              </Link>
+            </div>
+
+            {/* 🚪 Logout icon */}
             <Link to="Logout" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
             </Link>
           </div>
+
         </nav>
 
         {/* Mobile Hamburger */}
@@ -157,7 +173,7 @@ export default function Header({ currency, setCurrency }) {
           {/* Mobile Icons */}
           <div className="flex justify-center gap-6 text-xl mt-2">
             <Link to="AddToCart" className="hover:text-yellow-300 transition">
-              <FaShoppingCart />
+              <FaShoppingCart /> <span>{added()}</span>
             </Link>
             <Link to="LoginPage" className="hover:text-yellow-300 transition">
               <IoMdLogIn />
