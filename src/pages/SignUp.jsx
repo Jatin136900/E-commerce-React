@@ -4,10 +4,10 @@ import { useCart } from "./CartContext";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { login } = useCart();
+  const { /* login */ } = useCart(); // we are NOT auto-logging in after sign up
   const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  // Get and save used accounts
   function getUsedAccounts() {
     try {
       const raw = localStorage.getItem("usedAccounts");
@@ -22,38 +22,63 @@ export default function SignUp() {
     } catch {}
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = new FormData(e.target);
+  const isValidEmail = (v) => {
+    if (!v) return false;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(v);
+  };
 
+  const isValidPhone = (v) => {
+    if (!v) return false;
+    const digits = v.replace(/\D/g, "");
+    return digits.length >= 10 && digits.length <= 15;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setMessage("");
+
+    const form = new FormData(e.target);
     const firstName = form.get("firstName")?.trim();
     const lastName = form.get("lastName")?.trim();
-    const email = form.get("email")?.trim()?.toLowerCase();
+    const contact = form.get("email")?.trim()?.toLowerCase();
     const password = form.get("password")?.trim();
     const dobDay = form.get("day");
     const dobMonth = form.get("month");
     const dobYear = form.get("year");
     const gender = form.get("gender");
 
-    if (!firstName || !email || !password) {
-      alert("⚠️ Please fill all required fields.");
+    // basic required check
+    if (!firstName || !contact || !password) {
+      setMessage("⚠️ Please fill all required fields.");
+      setBusy(false);
       return;
     }
 
+    // validate contact
+    if (!isValidEmail(contact) && !isValidPhone(contact)) {
+      setMessage("⚠️ Enter a valid email or mobile number (10-15 digits).");
+      setBusy(false);
+      return;
+    }
+
+    // check duplicate
     const usedAccounts = getUsedAccounts();
-    const existingUser = usedAccounts.find((a) => a.email === email);
-
+    const existingUser = usedAccounts.find((a) => a.email === contact);
     if (existingUser) {
-      alert("⚠️ This email is already registered. Please log in instead.");
-      navigate("/LoginPage");
+      // DO NOT redirect — stay on SignUp and show message
+      setMessage("⚠️ This email/number is already registered. Please use a different contact or go to Login.");
+      setBusy(false);
       return;
     }
 
-    // Create new user object
+    // All good — create account (but do NOT auto-login)
     const userObj = {
       id: Date.now(),
-      name: `${firstName} ${lastName}`,
-      email,
+      name: `${firstName} ${lastName}`.trim(),
+      email: contact,
       password,
       gender,
       dob: `${dobDay}-${dobMonth}-${dobYear}`,
@@ -62,11 +87,13 @@ export default function SignUp() {
 
     usedAccounts.push(userObj);
     saveUsedAccounts(usedAccounts);
-    login(userObj);
 
-    alert("🎉 Account created successfully! You are now logged in.");
-    setMessage("Account created successfully!");
-    setTimeout(() => navigate("/"), 1000);
+    // success — show message and redirect to LoginPage after short delay
+    setMessage("🎉 Account created successfully! Redirecting to Login...");
+    setTimeout(() => {
+      setBusy(false);
+      navigate("/LoginPage");
+    }, 900);
   };
 
   return (
@@ -96,45 +123,24 @@ export default function SignUp() {
             />
           </div>
 
-          {/* DOB */}
           <div>
             <label className="text-sm font-semibold text-gray-700">
               Date of birth
             </label>
             <div className="flex gap-2 mt-1">
-              <select
-                name="day"
-                className="border border-gray-300 rounded-lg px-2 py-1 w-1/3 focus:ring-2 focus:ring-green-400"
-              >
+              <select name="day" className="...">
                 {Array.from({ length: 31 }, (_, i) => (
                   <option key={i + 1}>{i + 1}</option>
                 ))}
               </select>
-              <select
-                name="month"
-                className="border border-gray-300 rounded-lg px-2 py-1 w-1/3 focus:ring-2 focus:ring-green-400"
-              >
+              <select name="month" className="...">
                 {[
-                  "Jan",
-                  "Feb",
-                  "Mar",
-                  "Apr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Aug",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dec",
+                  "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",
                 ].map((m) => (
                   <option key={m}>{m}</option>
                 ))}
               </select>
-              <select
-                name="year"
-                className="border border-gray-300 rounded-lg px-2 py-1 w-1/3 focus:ring-2 focus:ring-green-400"
-              >
+              <select name="year" className="...">
                 {Array.from({ length: 100 }, (_, i) => (
                   <option key={i}>{2025 - i}</option>
                 ))}
@@ -142,15 +148,11 @@ export default function SignUp() {
             </div>
           </div>
 
-          {/* Gender */}
           <div>
             <label className="text-sm font-semibold text-gray-700">Gender</label>
             <div className="flex justify-between mt-1">
               {["Female", "Male", "Custom"].map((g) => (
-                <label
-                  key={g}
-                  className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 w-[32%] justify-center cursor-pointer"
-                >
+                <label key={g} className="flex items-center gap-2 border rounded-lg px-3 py-1 w-[32%] justify-center cursor-pointer">
                   <input type="radio" name="gender" value={g} required />
                   <span className="text-sm">{g}</span>
                 </label>
@@ -158,9 +160,8 @@ export default function SignUp() {
             </div>
           </div>
 
-          {/* Email + Password */}
           <input
-            type="email"
+            type="text"
             name="email"
             placeholder="Mobile number or email address"
             className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -174,38 +175,28 @@ export default function SignUp() {
             required
           />
 
-          {/* Terms */}
           <p className="text-xs text-gray-500 mt-2 leading-snug">
             By clicking Sign Up, you agree to our{" "}
-            <span className="text-blue-600 underline cursor-pointer">Terms</span>
-            ,{" "}
-            <span className="text-blue-600 underline cursor-pointer">
-              Privacy Policy
-            </span>{" "}
-            and{" "}
-            <span className="text-blue-600 underline cursor-pointer">
-              Cookies Policy
-            </span>
-            .
+            <span className="text-blue-600 underline cursor-pointer">Terms</span>,{" "}
+            <span className="text-blue-600 underline cursor-pointer">Privacy Policy</span>{" "}
+            and <span className="text-blue-600 underline cursor-pointer">Cookies Policy</span>.
           </p>
 
-          {/* Sign Up Button */}
           <button
             type="submit"
-            className="bg-amber-700 hover:bg-green-700 text-white font-bold py-2 rounded-lg text-lg mt-3 transition-all cursor-pointer"
+            disabled={busy}
+            className={`bg-amber-700 hover:bg-green-700 text-white font-bold py-2 rounded-lg text-lg mt-3 transition-all cursor-pointer ${busy ? "opacity-60 cursor-not-allowed" : ""}`}
           >
-            Sign Up
+            {busy ? "Processing..." : "Sign Up"}
           </button>
 
           {message && (
-            <p className="mt-3 text-center text-green-600 font-semibold">
-              {message}
-            </p>
+            <p className="mt-3 text-center text-red-600 font-semibold">{message}</p>
           )}
         </form>
 
         <p
-          onClicoik={() => navigate("/LoginPage")}
+          onClick={() => navigate("/LoginPage")}
           className="text-blue-600 text-center mt-4 text-sm font-medium cursor-pointer hover:underline"
         >
           Already have an account?
