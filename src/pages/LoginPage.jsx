@@ -24,7 +24,7 @@ export default function LoginPage() {
   function saveUsedAccounts(accounts) {
     try {
       localStorage.setItem("usedAccounts", JSON.stringify(accounts));
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // 🔹 Handle login form submit
@@ -59,7 +59,7 @@ export default function LoginPage() {
             addToCart(product, quantity);
             localStorage.removeItem("pendingAddToCart");
             alert("✅ Product automatically added to cart!");
-          } catch (e) {}
+          } catch (e) { }
         }
 
         setTimeout(() => navigate("/"), 800);
@@ -96,7 +96,7 @@ export default function LoginPage() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(new FormData(e.target));
+              handleSubmit(new FormDlata(e.target));
             }}
             className="flex flex-col gap-4"
           >
@@ -136,13 +136,13 @@ export default function LoginPage() {
           )}
 
           {/* Sign Up Button */}
-          <Link to = "/SignUp">
-          <button
-            onClick={() => navigate("/signup")}
-            className="mt-4 w-full py-3 rounded-xl font-semibold text-purple-700 border-2 border-purple-500 hover:bg-purple-50 transition-all"
-          >
-            Sign Up
-          </button>
+          <Link to="/SignUp">
+            <button
+              onClick={() => navigate("/signup")}
+              className="mt-4 w-full py-3 rounded-xl font-semibold text-purple-700 border-2 border-purple-500 hover:bg-purple-50 transition-all"
+            >
+              Sign Up
+            </button>
           </Link>
         </div>
       </div>

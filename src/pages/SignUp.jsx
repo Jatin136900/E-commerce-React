@@ -192,7 +192,7 @@ export default function SignUp() {
           {/* Sign Up Button */}
           <button
             type="submit"
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg text-lg mt-3 transition-all"
+            className="bg-amber-700 hover:bg-green-700 text-white font-bold py-2 rounded-lg text-lg mt-3 transition-all cursor-pointer"
           >
             Sign Up
           </button>
@@ -205,7 +205,7 @@ export default function SignUp() {
         </form>
 
         <p
-          onClick={() => navigate("/LoginPage")}
+          onClicoik={() => navigate("/LoginPage")}
           className="text-blue-600 text-center mt-4 text-sm font-medium cursor-pointer hover:underline"
         >
           Already have an account?
