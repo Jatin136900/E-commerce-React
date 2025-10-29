@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       { index: "Home",element: <MainSection /> },
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
-      { path: "product/:id", element: <SingleProduct /> }, // Dynamic route
+      { path: "product/:id/:title", element: <SingleProduct /> }, // Dynamic route
       { path: "*", element: <NotFound /> },
       { path: "AddToCart", element: <AddToCart /> },
       { path: "MainSection", element: <MainSection /> },

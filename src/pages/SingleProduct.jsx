@@ -7,7 +7,7 @@ import { useCart } from "./CartContext";
 export default function SingleProduct() {
   const navigate = useNavigate();
   const { currency } = useOutletContext();
-  const { id } = useParams();
+  const { id, title } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(false);
   const [usdToInr, setUsdToInr] = useState(82); // fallback 82
@@ -24,9 +24,7 @@ export default function SingleProduct() {
 
   async function fetchExchangeRate() {
     try {
-      const res = await axios.get(
-        "https://api.exchangerate-api.com/v4/latest/USD"
-      );
+      const res = await axios.get("https://api.exchangerate-api.com/v4/latest/USD");
       setUsdToInr(res.data.rates.INR);
     } catch {
       setUsdToInr(82);
@@ -35,9 +33,7 @@ export default function SingleProduct() {
 
   async function fetchProduct() {
     try {
-      const response = await axios.get(
-        `https://fakestoreapi.com/products/${id}`
-      );
+      const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
       if (response.data && Object.keys(response.data).length > 0) {
         setProduct(response.data);
         setError(false);
@@ -72,6 +68,7 @@ export default function SingleProduct() {
   const handleIncrease = () => setQuantity((prev) => prev + 1);
   const handleDecrease = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
+  // ✅ Updated function with alert protection
   const handleAddToCart = () => {
     if (!isLoggedIn) {
       localStorage.setItem(
@@ -82,13 +79,14 @@ export default function SingleProduct() {
       return;
     }
 
-    if (!addedToCart) {
-      addToCart(product, quantity);
-      setAddedToCart(true);
-      alert("✅ Product added to cart!");
-    } else {
-      alert("⚠️ You can't add this product again!");
+    // 🧠 Prevent adding again if already added
+    if (addedToCart) {
+      alert("⚠️ You’ve already added this product to your cart!");
+      return;
     }
+
+    addToCart(product, quantity);
+    setAddedToCart(true);
   };
 
   return (
@@ -143,11 +141,17 @@ export default function SingleProduct() {
             </button>
           </div>
 
+          {/* ✅ Updated Button */}
           <button
             onClick={handleAddToCart}
-            className="mt-6 px-4 py-2.5 bg-blue-600 text-white font-semibold rounded-xl shadow hover:bg-blue-700 hover:shadow-lg transition-all duration-300 cursor-pointer w-full text-center block"
+            disabled={addedToCart}
+            className={`mt-6 px-4 py-2.5 font-semibold rounded-xl shadow transition-all duration-300 cursor-pointer w-full text-center block
+              ${addedToCart
+                ? "bg-green-500 text-white hover:bg-green-600 shadow-md"
+                : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
+              }`}
           >
-            Add to Cart 🛒
+            {addedToCart ? "✅ Added to Cart" : "Add to Cart 🛒"}
           </button>
         </div>
       </div>
