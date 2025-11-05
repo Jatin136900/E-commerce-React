@@ -94,7 +94,7 @@ function MainSection() {
           {products.map((obj) => (
             <Link
               key={obj.id}
-              to={`/product/${obj.id}/${encodeURIComoponent(obj.title)}`}
+              to={`/product/${obj.id}/${encodeURIComponent(obj.title)}`} // ✅ fixed spelling
             >
               <div className="bg-white w-64 rounded-2xl shadow-md p-4 text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                 <img
@@ -105,6 +105,7 @@ function MainSection() {
                 <h3 className="text-gray-800 font-medium text-base h-12 overflow-hidden text-ellipsis">
                   {obj.title}
                 </h3>
+
                 {currency === "INR" ? (
                   usdToInr ? (
                     <p className="text-red-500 text-[15px] font-semibold mt-2">
