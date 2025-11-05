@@ -94,7 +94,7 @@ function MainSection() {
           {products.map((obj) => (
             <Link
               key={obj.id}
-              to={`/product/${obj.id}/${encodeURIComponent(obj.title)}`}
+              to={`/product/${obj.id}/${encodeURIComoponent(obj.title)}`}
             >
               <div className="bg-white w-64 rounded-2xl shadow-md p-4 text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                 <img

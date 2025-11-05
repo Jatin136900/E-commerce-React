@@ -68,7 +68,7 @@ export default function SingleProduct() {
   const handleIncrease = () => setQuantity((prev) => prev + 1);
   const handleDecrease = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  // ✅ Updated function with alert protection
+  //  Updated function with alert protection
   const handleAddToCart = () => {
     if (!isLoggedIn) {
       localStorage.setItem(
@@ -79,9 +79,9 @@ export default function SingleProduct() {
       return;
     }
 
-    // 🧠 Prevent adding again if already added
+    
     if (addedToCart) {
-      alert("⚠️ You’ve already added this product to your cart!");
+      alert(" You’ve already added this product to your cart!");
       return;
     }
 
