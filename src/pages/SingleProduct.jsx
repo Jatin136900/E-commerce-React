@@ -79,7 +79,7 @@ export default function SingleProduct() {
       return;
     }
 
-    
+
     if (addedToCart) {
       alert(" You’ve already added this product to your cart!");
       return;

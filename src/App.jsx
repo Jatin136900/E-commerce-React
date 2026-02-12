@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       { path: "contact", element: <Contact /> },
       { path: "product/:id/:title", element: <SingleProduct /> }, // Dynamic route
       { path: "*", element: <NotFound /> },
-      { path: "AddToCart", element: <AddToCart /> },
+      { path: "AddToCart", element: <AddToCart /> },  
       { path: "MainSection", element: <MainSection /> },
       { path: "LoginPage", element: <LoginPage /> },
       { path: "Logout", element: <Logout /> },

@@ -16,7 +16,7 @@ function MainSection() {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setLoading(false); // ✅ Data load hone ke baad spinner hatao
+        setLoading(false); 
       }
     };
 
